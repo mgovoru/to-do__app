@@ -1,95 +1,111 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+import * as React from 'react';
+import { createTheme } from '@mui/material/styles';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { AppProvider, type Navigation } from '@toolpad/core/AppProvider';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { useDemoRouter } from '@toolpad/core/internal';
+import styles from './page.module.css';
+import ContentPage from './components/ContentPage';
+import Image from 'next/image';
+import { Stack, Typography } from '@mui/material';
 
-export default function Home() {
+const NAVIGATION: Navigation = [
+  {
+    segment: 'tasks',
+    title: 'Tasks',
+    icon: <ListAltIcon />,
+  },
+  {
+    segment: 'ocompletyedtasks',
+    title: 'Compeleted tasks',
+    icon: <PlaylistAddCheckIcon />,
+  },
+];
+
+const demoTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 600,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
+function DemoPageContent({ pathname }: { pathname: string }) {
+  let content;
+
+  if (pathname === '/tasks' || pathname === '') {
+    content = (
+      <>
+        <h1>Add the task to the task list</h1>
+        <ContentPage />
+      </>
+    );
+  } else {
+    content = <h1>list</h1>;
+  }
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <div className='container'>{content}</div>
     </div>
+  );
+}
+
+interface DemoProps {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * Remove this when copying and pasting into your project.
+   */
+  window?: () => Window;
+}
+
+export default function DashboardLayoutBranding(props: DemoProps) {
+  const { window } = props;
+
+  const router = useDemoRouter('/tasks');
+
+  // Remove this const when copying and pasting into your project.
+  const demoWindow = window !== undefined ? window() : undefined;
+
+  function CustomAppTitle() {
+    return (
+      <Stack direction='row' alignItems='center' spacing={2}>
+        <Image src='/logo.png' alt='ToDo logo' width='40' height='40' />
+        <Typography variant='h4' sx={{ fontFamily: 'Russo One' }}>
+          To Do App
+        </Typography>
+      </Stack>
+    );
+  }
+
+  return (
+    <AppProvider
+      navigation={NAVIGATION}
+      // branding={{
+      //   logo: <Image src='/logo.png' alt='ToDo logo' width='40' height='40' />,
+      //   // title: 'ToDo App',
+      //   homeUrl: '/toolpad/core/introduction',
+      // }}
+      router={router}
+      theme={demoTheme}
+      window={demoWindow}
+    >
+      <DashboardLayout
+        slots={{
+          appTitle: CustomAppTitle,
+        }}
+      >
+        <DemoPageContent pathname={router.pathname} />
+      </DashboardLayout>
+    </AppProvider>
   );
 }
