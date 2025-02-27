@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,7 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { editTask } from '@/slice';
 
 export default function TodoList() {
-  
   const arrayTasks = useSelector(
     (state: InitialStore) => state.tasks
   ) as unknown as Task[];
@@ -33,13 +33,33 @@ export default function TodoList() {
               tabIndex={-1}
               disableRipple
               inputProps={{ 'aria-labelledby': `checkbox-list-label-${id}` }}
+              sx={{
+                color: 'grey',
+                '&.Mui-checked': {
+                  color: 'transparent',
+                  borderRadius: '4px',
+                  '& svg': {
+                    display: 'block',
+                    fill: 'white',
+                  },
+                },
+                '&:hover': {
+                  backgroundColor: 'transparent',
+                },
+              }}
             />
           </ListItemIcon>
           <ListItemText
             id={`checkbox-list-label-${id}`}
             primary={text}
             sx={{
-              textDecoration: completed ? 'line-through' : 'none',
+              '& > *': {
+                color: 'white',
+                fontSize: '36px',
+                fontFamily: 'marck Script',
+                textShadow: '1px 1px 3px black',
+                textDecoration: completed ? 'line-through' : 'none',
+              },
             }}
           />
         </ListItem>

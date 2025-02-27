@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <Provider store={store}>
-      <html lang='en'>
+      <html lang='en' data-toolpad-color-scheme='light'>
         <body className={`${russo_One.className} ${marck_Script.className}`}>
           {children}
         </body>

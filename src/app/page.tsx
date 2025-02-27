@@ -46,7 +46,7 @@ function DemoPageContent({ pathname }: { pathname: string }) {
   if (pathname === '/tasks' || pathname === '') {
     content = (
       <>
-        <h1>Add the task to the task list</h1>
+        <h1 className={styles.title}>Add the task to the task list</h1>
         <ContentPage />
       </>
     );
@@ -60,21 +60,8 @@ function DemoPageContent({ pathname }: { pathname: string }) {
   );
 }
 
-interface DemoProps {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
-  window?: () => Window;
-}
-
-export default function DashboardLayoutBranding(props: DemoProps) {
-  const { window } = props;
-
+export default function DashboardLayoutBranding() {
   const router = useDemoRouter('/tasks');
-
-  // Remove this const when copying and pasting into your project.
-  const demoWindow = window !== undefined ? window() : undefined;
 
   function CustomAppTitle() {
     return (
@@ -88,20 +75,16 @@ export default function DashboardLayoutBranding(props: DemoProps) {
   }
 
   return (
-    <AppProvider
-      navigation={NAVIGATION}
-      // branding={{
-      //   logo: <Image src='/logo.png' alt='ToDo logo' width='40' height='40' />,
-      //   // title: 'ToDo App',
-      //   homeUrl: '/toolpad/core/introduction',
-      // }}
-      router={router}
-      theme={demoTheme}
-      window={demoWindow}
-    >
+    <AppProvider navigation={NAVIGATION} router={router} theme={demoTheme}>
       <DashboardLayout
         slots={{
           appTitle: CustomAppTitle,
+        }}
+        sx={{
+          '.MuiListItemText-root span': { fontFamily: 'Russo One' },
+          '.MuiSvgIcon-root': {
+            color: 'rgb(234,191,34)',
+          },
         }}
       >
         <DemoPageContent pathname={router.pathname} />
