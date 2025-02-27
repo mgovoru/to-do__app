@@ -81,10 +81,10 @@ export default function DashboardLayoutBranding() {
           appTitle: CustomAppTitle,
         }}
         sx={{
-          '.MuiListItemText-root span': { fontFamily: 'Russo One' },
           '.MuiSvgIcon-root': {
-            color: 'rgb(234,191,34)',
+            color: 'rgb(234,191,34) !important',
           },
+          '.MuiDrawer-root .MuiListItemText-root span': { fontFamily: 'Russo One' },
         }}
       >
         <DemoPageContent pathname={router.pathname} />
