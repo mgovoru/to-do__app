@@ -6,7 +6,7 @@ import { addTask } from '@/slice';
 import { useDispatch } from 'react-redux';
 import ToDoList from './ToDoList';
 
-export default function ContentPage() {
+export default function ContentPage(props: { props: string }) {
   const [value, setValue] = React.useState('');
   const dispatch = useDispatch();
 
@@ -17,6 +17,7 @@ export default function ContentPage() {
       setValue('');
     }
   };
+
   return (
     <>
       <Box
@@ -66,7 +67,7 @@ export default function ContentPage() {
           }}
         />
       </Box>
-      <ToDoList />
+      <ToDoList props={props.props} />
     </>
   );
 }

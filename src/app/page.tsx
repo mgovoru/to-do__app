@@ -10,6 +10,7 @@ import styles from './page.module.css';
 import ContentPage from './components/ContentPage';
 import Image from 'next/image';
 import { Stack, Typography } from '@mui/material';
+import ListIcon from '@mui/icons-material/List';
 
 const NAVIGATION: Navigation = [
   {
@@ -18,7 +19,12 @@ const NAVIGATION: Navigation = [
     icon: <ListAltIcon />,
   },
   {
-    segment: 'ocompletyedtasks',
+    segment: 'activetasks',
+    title: 'Active tasks',
+    icon: <ListIcon />,
+  },
+  {
+    segment: 'completedtasks',
     title: 'Compeleted tasks',
     icon: <PlaylistAddCheckIcon />,
   },
@@ -41,18 +47,20 @@ const demoTheme = createTheme({
 });
 
 function DemoPageContent({ pathname }: { pathname: string }) {
-  let content;
+  const title =
+    pathname === '/tasks'
+      ? 'Add the task to your to-do list'
+      : pathname === '/activetasks'
+        ? 'Active task list'
+        : 'Completed task list';
 
-  if (pathname === '/tasks' || pathname === '') {
-    content = (
-      <>
-        <h1 className={styles.title}>Add the task to the task list</h1>
-        <ContentPage />
-      </>
-    );
-  } else {
-    content = <h1>list</h1>;
-  }
+  const content = (
+    <>
+      <h1 className={styles.title}>{title}</h1>
+      <ContentPage props={pathname} />
+    </>
+  );
+
   return (
     <div className={styles.page}>
       <div className='container'>{content}</div>
@@ -84,7 +92,12 @@ export default function DashboardLayoutBranding() {
           '.MuiSvgIcon-root': {
             color: 'rgb(234,191,34) !important',
           },
-          '.MuiDrawer-root .MuiListItemText-root span': { fontFamily: 'Russo One' },
+          '.container .MuiSvgIcon-root': {
+            color: 'orange !important',
+          },
+          '.MuiDrawer-root .MuiListItemText-root span': {
+            fontFamily: 'Russo One',
+          },
         }}
       >
         <DemoPageContent pathname={router.pathname} />
