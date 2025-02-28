@@ -74,7 +74,7 @@ export default function DashboardLayoutBranding() {
   function CustomAppTitle() {
     return (
       <Stack direction='row' alignItems='center' spacing={2}>
-        <Image src='/logo.png' alt='ToDo logo' width='40' height='40' />
+        <Image src='/to-do__app/logo.png' alt='ToDo logo' width='40' height='40' />
         <Typography variant='h4' sx={{ fontFamily: 'Russo One' }}>
           To Do App
         </Typography>
